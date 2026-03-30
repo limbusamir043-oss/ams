@@ -1,0 +1,14 @@
+{% extends "teacher.html" %}
+{% block title %}Edit Assignment{% endblock %}
+
+{% block content %}
+<h2>✏️ Edit Assignment</h2>
+
+<form method="post" style="max-width:600px;">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" style="background:#16a34a;color:white;padding:0.6rem 1.2rem;border:none;border-radius:6px;">
+        Update Assignment
+    </button>
+</form>
+{% endblock %}

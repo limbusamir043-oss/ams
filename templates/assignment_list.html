@@ -1,0 +1,75 @@
+{% extends "teacher.html" %}
+{% block title %}Assignments{% endblock %}
+
+{% block content %}
+<style>
+    .header-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 1.5rem;
+    }
+
+    .btn {
+        padding: 0.5rem 1rem;
+        border-radius: 6px;
+        text-decoration: none;
+        font-weight: 600;
+        color: white;
+    }
+
+    .btn-create { background: #1d4ed8; }
+    .btn-edit { background: #16a34a; }
+    .btn-delete { background: #dc2626; }
+
+    table {
+        width: 100%;
+        background: white;
+        border-collapse: collapse;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    th, td {
+        padding: 0.9rem;
+        border-bottom: 1px solid #e2e8f0;
+        text-align: left;
+    }
+
+    th {
+        background: #f1f5f9;
+    }
+</style>
+
+<div class="header-row">
+    <h2>📚 My Assignments</h2>
+    <a href="{% url 'teacher_assignments' %}" class="btn btn-create">+ New Assignment</a>
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Due Date</th>
+            <th>Total Marks</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for assignment in assignments %}
+        <tr>
+            <td>{{ assignment.title }}</td>
+            <td>{{ assignment.due_date }}</td>
+            <td>{{ assignment.total_marks }}</td>
+            <td>
+                <a href="{% url 'edit_assignment' assignment.id %}" class="btn btn-edit">Edit</a>
+                <a href="{% url 'delete_assignment' assignment.id %}" class="btn btn-delete">Delete</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="4">No assignments created yet.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

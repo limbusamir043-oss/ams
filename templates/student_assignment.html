@@ -1,0 +1,250 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Assignments</title>
+
+    <style>
+        /* Base & Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+            line-height: 1.6;
+        }
+
+        /* Header */
+        .header {
+            background: white;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #0d9488;
+        }
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            background: #ccfbf1;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: #0d9488;
+        }
+
+        /* Main Layout */
+        .container {
+            display: flex;
+            min-height: calc(100vh - 72px);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 240px;
+            background: white;
+            border-right: 1px solid #e2e8f0;
+            padding: 1.5rem 0;
+        }
+        .nav-item {
+            padding: 0.875rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: #475569;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+        .nav-item:hover, .nav-item.active {
+            background: #ecfdf5;
+            color: #0d9488;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 2rem;
+        }
+        .page-header {
+            margin-bottom: 2rem;
+        }
+        .page-header h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #0f172a;
+        }
+        .page-header p {
+            color: #64748b;
+            margin-top: 0.25rem;
+        }
+
+        /* Assignments Table */
+        .assignments {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            overflow: hidden;
+        }
+        .assignments-header {
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .assignments-header h2 {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        thead {
+            background: #f8fafc;
+        }
+        th {
+            text-align: left;
+            padding: 0.875rem 1.5rem;
+            font-weight: 600;
+            color: #475569;
+            font-size: 0.9rem;
+        }
+        td {
+            padding: 1rem 1.5rem;
+            border-top: 1px solid #e2e8f0;
+            color: #334155;
+        }
+
+        .btn-sm {
+            padding: 0.375rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn-submit {
+            background: #0d9488;
+            color: white;
+        }
+        .btn-submit:hover {
+            background: #0f766e;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .container {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid #e2e8f0;
+                padding: 1rem 0;
+                overflow-x: auto;
+            }
+            .nav-item {
+                min-width: 140px;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<header class="header">
+    <div class="logo">EduPortal</div>
+    <div class="user-info">
+        <div class="user-avatar">
+            {{ user.username|first|upper }}
+        </div>
+        <span>{{ user.username }}</span>
+    </div>
+</header>
+
+<div class="container">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <a href="{% url 'student_assignments' %}" class="nav-item active">📚 Assignments</a>
+        <a href="#" class="nav-item">📊 Grades</a>
+        <a href="#" class="nav-item">📚 My Courses</a>
+        <a href="#" class="nav-item">📅 Calendar</a>
+        <a href="#" class="nav-item">⚙️ Profile</a>
+    </aside>
+
+    <!-- Main -->
+    <main class="main-content">
+
+        <div class="page-header">
+            <h1>My Assignments</h1>
+            <p>Assignments assigned by teachers</p>
+        </div>
+
+        <div class="assignments">
+            <div class="assignments-header">
+                <h2>All Assignments</h2>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Teacher</th>
+                        <th>Description</th>
+                        <th>Due Date</th>
+                        <th>Total Marks</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for assignment in assignments %}
+                    <tr>
+                        <td>{{ assignment.title }}</td>
+                        <td>{{ assignment.teacher.username }}</td>
+                        <td>{{ assignment.description }}</td>
+                        <td>{{ assignment.due_date }}</td>
+                        <td>{{ assignment.total_marks }}</td>
+                        <td>
+                            <a href="#" class="btn-sm btn-submit">
+                                Submit Assignment
+                            </a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5">No assignments available</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+
+    </main>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,95 @@
+{% extends "teacher.html" %}
+
+{% block title %}Create Assignment{% endblock %}
+
+{% block content %}
+<style>
+    .form-card {
+        max-width: 700px;
+        background: white;
+        padding: 2rem;
+        border-radius: 12px;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+    }
+
+    .form-card h2 {
+        margin-bottom: 1.5rem;
+        color: #1d4ed8;
+    }
+
+    .form-group {
+        margin-bottom: 1.25rem;
+    }
+
+    label {
+        font-weight: 600;
+        display: block;
+        margin-bottom: 0.4rem;
+        color: #334155;
+    }
+
+    input, textarea {
+        width: 100%;
+        padding: 0.65rem 0.75rem;
+        border-radius: 8px;
+        border: 1px solid #cbd5f5;
+        font-size: 0.95rem;
+    }
+
+    textarea {
+        min-height: 120px;
+        resize: vertical;
+    }
+
+    input:focus, textarea:focus {
+        outline: none;
+        border-color: #1d4ed8;
+    }
+
+    .btn-submit {
+        background: #1d4ed8;
+        color: white;
+        border: none;
+        padding: 0.7rem 1.5rem;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    .btn-submit:hover {
+        background: #1e40af;
+    }
+</style>
+
+<div class="form-card">
+    <h2>📚 Create Assignment</h2>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label>Title</label>
+            {{ form.title }}
+        </div>
+
+        <div class="form-group">
+            <label>Description</label>
+            {{ form.description }}
+        </div>
+
+        <div class="form-group">
+            <label>Due Date</label>
+            {{ form.due_date }}
+        </div>
+
+        <div class="form-group">
+            <label>Total Marks</label>
+            {{ form.total_marks }}
+        </div>
+
+        <button type="submit" class="btn-submit">
+            Create Assignment
+        </button>
+    </form>
+</div>
+{% endblock %}
